@@ -97,7 +97,10 @@
 		<input type="submit" value="cambiar de esclavo" />
 	</form:form>
 
-
+<div>
+		<a href="searchPokemon">Entrar en cueva</a>
+	
+</div>
 
 
 </body>

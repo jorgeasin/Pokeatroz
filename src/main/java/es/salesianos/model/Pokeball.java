@@ -5,7 +5,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class Pokeball {
 	private int number;
 	private String name;
-	public int rate;
+	private int rate = 100;
+	
+	
 	
 	public int getNumber() {
 		return number;
@@ -20,8 +22,10 @@ public class Pokeball {
 		this.name = name;
 	}
 	
-	
-	public Boolean moreBalls(Pokeball pokeball) {
-		return true;
+	public int getRate() {
+		return rate;
+	}
+	public void setRate(int rate) {
+		this.rate = rate;
 	}
 }

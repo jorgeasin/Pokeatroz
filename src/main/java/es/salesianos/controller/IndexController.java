@@ -26,6 +26,8 @@ public class IndexController {
 
 	@Autowired
 	private Person person;
+	@Autowired
+	private Person rival;
 
 	@GetMapping("/")
 	public ModelAndView index() {
@@ -39,7 +41,6 @@ public class IndexController {
 	public ModelAndView personInsert(Person personForm) {
 		log.debug("personInsert:" + this.person.toString());		
 		ModelAndView modelAndView = new ModelAndView("index");
-		System.out.println("agrego al persona");
 		// this.person=personForm;
 		addPageData(personForm);
 		modelAndView.addObject("person", person);
@@ -63,11 +64,9 @@ public class IndexController {
 	}
 	
 	private void addPageData(Person personForm) {
-
 		if (!StringUtils.isEmpty(personForm.getName())) {
 			person.setName(personForm.getName());
 		}
-
 		if (!StringUtils.isEmpty(personForm.getPokeballs())) {
 			Pokeball pokeball = new Pokeball();
 			
@@ -76,7 +75,6 @@ public class IndexController {
 			System.out.println("metelo");
 			this.person.setPokeball(pokeball);
 			this.person.addPokeballs(pokeball);
-			
 		}
 	}
 	
@@ -97,6 +95,53 @@ public class IndexController {
 		return modelAndView;
 	}
 
+	@GetMapping("searchPokemon")
+	public ModelAndView searchPokemon() {
+		rival.setPokemon(addWildPokemon());
+		ModelAndView modelAndView = new ModelAndView("cave");
+		modelAndView.addObject("person", this.person);
+		modelAndView.addObject("rival", this.rival);
+		return modelAndView;
+	}
+	@PostMapping("kidnap")
+	public ModelAndView KidnapPoorPokemon() {
+		System.out.println("ahora corre");
+		ModelAndView modelAndView;
+		if (kidnaped()) {
+			
+			this.person.addPokemons(rival.getPokemon());
+			System.out.println("secuestro completo");
+			modelAndView = new ModelAndView("index");
+			modelAndView.addObject("person", this.person);
+			return modelAndView;
+		}
+		else {
+			modelAndView = new ModelAndView("cave");
+			modelAndView.addObject("person", this.person);
+			modelAndView.addObject("rival", this.rival);
+			
+		}
+		return modelAndView;
+	}
 
 
+	private boolean kidnaped() {
+		System.out.println(person.getPokeball().getRate());
+		if (person.getPokeball().getRate()>= (Math.random())*100) {
+			return true;
+		}
+		else
+			return false;
+	}
+
+
+	private Pokemon addWildPokemon() {
+		
+		Pokemon pokemonWild = new Pokemon();
+		pokemonWild.setName("Zubat");
+		pokemonWild.setAttack("50");
+		pokemonWild.setHp("500");
+		return pokemonWild;
+		
+	}
 }
