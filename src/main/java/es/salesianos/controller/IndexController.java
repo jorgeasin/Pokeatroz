@@ -104,12 +104,13 @@ public class IndexController {
 		return modelAndView;
 	}
 	@PostMapping("kidnap")
-	public ModelAndView KidnapPoorPokemon() {
+	public ModelAndView KidnapPoorPokemon(Person personForm) {
 		System.out.println("ahora corre");
 		ModelAndView modelAndView;
 		if (kidnaped()) {
-			
+			System.out.println(personForm.getPokeball().getName());
 			this.person.addPokemons(rival.getPokemon());
+			reduceBalls(personForm);
 			System.out.println("secuestro completo");
 			modelAndView = new ModelAndView("index");
 			modelAndView.addObject("person", this.person);
@@ -122,6 +123,18 @@ public class IndexController {
 			
 		}
 		return modelAndView;
+	}
+
+
+	private void reduceBalls(Person personForm) {
+		for (int i = 0; i < this.person.getPokeballs().size(); i++) {
+			if (this.person.getPokeballs().get(i).getName() == personForm.getPokeball().getName())
+				this.person.getPokeballs().get(i).setNumber(this.person.getPokeballs().get(i).getNumber()-1);
+				if (this.person.getPokeballs().get(i).getNumber()==0) {
+					this.person.getPokeballs().remove(0);
+				}
+		}
+		
 	}
 
 
