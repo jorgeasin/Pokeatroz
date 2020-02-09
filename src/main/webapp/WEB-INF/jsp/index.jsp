@@ -14,7 +14,7 @@
 <body>
 
 	<form:form action="insert" method="post" modelAttribute="person">
-		<span>nombre del estudiante:</span>
+		<span>Elige Pokemone inicial:</span>
 		<form:input type="text" path="name" />
 		<input type="submit" value="Guardar nombre estudiante" />
 	</form:form>
@@ -29,91 +29,72 @@
 	<form:form action="insert" method="post" modelAttribute="person">
 		<span>nuevo item:</span>
 		<span>nombre:</span>
-		<form:input type="text" path="item.name" />
-		<span>peso:</span>
-		<form:input type="text" path="item.peso" />
-		<span>tipo:</span>
-		<form:input type="text" path="item.type" />
+		<form:input type="text" path="pokeball.name" />
+		<span>cantidad:</span>
+		<form:input type="text" path="pokeball.number" />
 		<input type="submit" value="guardar item" />
 	</form:form>
+	<br />
+	<br />
+	<br />
+	
+	<form:form action="insertP" method="post" modelAttribute="person">
+		<span>nuevo Pokemone:</span>
+		<span>nombre:</span>
+		<form:input type="text" path="pokemon.name" />
+		<span>vida:</span>
+		<form:input type="text" path="pokemon.hp" />
+		<span>ataque:</span>
+		<form:input type="text" path="pokemon.attack" />
+		<input type="submit" value="Añadir pokemon" />
+	</form:form>
+	<br />
+	<br />
+	<br />
 	<table border="1">
 		<thead>
 			<tr>
-				<td>Mochila</td>
-				<td>peso</td>
-				<td>tipo</td>
+				<td>Pokeball</td>
+				<td>Numero</td>
 			</tr>
 		</thead>
 		<tbody>
-			<c:forEach var="item" items="${person.bag.items}">
+		<c:forEach var="pokeballs" items="${person.pokeballs}">
 				<tr>
-					<td><c:out value="${item.name}" /></td>
-					<td><c:out value="${item.peso}" /></td>
-					<td><c:out value="${item.type}" /></td>
+					<td><c:out value="${pokeballs.name}" /></td>
+					<td><c:out value="${pokeballs.number}" /></td>
+					
+				</tr>
+			</c:forEach>
+				
+		</tbody>
+	</table>
+	<br />
+	<br />
+	<br />
+	<table border="1">
+		<thead>
+			<tr>
+				<td>pokemon</td>
+				<td>hp</td>
+				<td>ataque</td>
+			</tr>
+		</thead>
+		<tbody>
+				<c:forEach var="pokemons" items="${person.pokemons}">
+				<tr>
+					<td><c:out value="${pokemons.name}" /></td>
+					<td><c:out value="${pokemons.hp}" /></td>
+					<td><c:out value="${pokemons.attack}" /></td>
 				</tr>
 			</c:forEach>
 		</tbody>
 	</table>
-	<br />
-	<br />
-	<table border="1">
-		<thead>
-			<tr>
-				<td>armas disponibles</td>
-			</tr>
-		</thead>
-		<tbody>
-			<tr>
-				primaria
-				<td><c:out value="${person.primary.name}" /></td>
-			</tr>
-			<tr>
-				secundaria
-				<td><c:out value="${person.secondary.name}" /></td>
-			</tr>
-		</tbody>
-	</table>
-	<br />
-	<br />
-	<table border="1">
-		<thead>
-			<tr>
-				<td>primary customization</td>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="item" items="${person.primary.items}">
-				<tr>
-					<td><c:out value="${item.name}" /></td>
-					<td><c:out value="${item.peso}" /></td>
-					<td><c:out value="${item.type}" /></td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-	<br />
+	
 
 
-	<table border="1">
-		<thead>
-			<tr>
-				<td>secundary customization</td>
-			</tr>
-		</thead>
-		<tbody>
-			<c:forEach var="item" items="${person.secondary.items}">
-				<tr>
-                    <td><c:out value="${item.name}" /></td>
-                    <td><c:out value="${item.peso}" /></td>
-                    <td><c:out value="${item.type}" /></td>
-				</tr>
-			</c:forEach>
-		</tbody>
-	</table>
-
-
-	<form:form action="switchWeapon" method="post">
-		<input type="submit" value="cambiar armas" />
+	<form:form action="switchPokemon" method="post">
+		<input type="submit" value="cambiar de esclavo" />
 	</form:form>
 
 

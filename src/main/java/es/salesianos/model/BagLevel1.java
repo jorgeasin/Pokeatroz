@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 public class BagLevel1 extends AbstractBag {
 
 	public BagLevel1() {
-		capacity = 20;
+		capacity = 6;
 	}
 
 

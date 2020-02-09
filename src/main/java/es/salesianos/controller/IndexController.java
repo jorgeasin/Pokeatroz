@@ -11,8 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+
 import es.salesianos.model.Item;
+
 import es.salesianos.model.Person;
+import es.salesianos.model.Pokeball;
+import es.salesianos.model.Pokemon;
 import es.salesianos.model.Weapon;
 
 @Controller
@@ -35,8 +39,25 @@ public class IndexController {
 	public ModelAndView personInsert(Person personForm) {
 		log.debug("personInsert:" + this.person.toString());		
 		ModelAndView modelAndView = new ModelAndView("index");
+		System.out.println("agrego al persona");
 		// this.person=personForm;
 		addPageData(personForm);
+		modelAndView.addObject("person", person);
+		return modelAndView;
+	}
+	
+	@PostMapping("insertP")
+	public ModelAndView pokemonInsert(Person personForm) {
+		log.debug("personInsert:" + this.person.toString());		
+		ModelAndView modelAndView = new ModelAndView("index");
+		System.out.println("agrego al ser");
+		Pokemon pokemon =  new Pokemon();
+		//pokemon = personForm.getPokemon(); esto va que te cagas
+		pokemon.setName(personForm.getPokemon().getName());
+		pokemon.setHp(personForm.getPokemon().getHp());
+		pokemon.setMaxHp(personForm.getPokemon().getHp());
+		pokemon.setAttack(personForm.getPokemon().getAttack());
+		person.addPokemons(pokemon);
 		modelAndView.addObject("person", person);
 		return modelAndView;
 	}
@@ -47,46 +68,29 @@ public class IndexController {
 			person.setName(personForm.getName());
 		}
 
-		if (!StringUtils.isEmpty(personForm.getItem())) {
-			Item item = new Item();
-			if (personForm.getItem().getType().equalsIgnoreCase("weapon")) {
-
-				Weapon weapon = new Weapon();
-				weapon.setName(personForm.getItem().getName());
-				if (person.getPrimary() == null) {
-					person.setPrimary(weapon);
-				} else if (person.getSecondary() == null) {
-					person.setSecondary(weapon);
-				} else {
-					person.setPrimary(weapon);
-				}
-
-			} else if (personForm.getItem().getType().equalsIgnoreCase("accesory")) {
-
-				List<Item> items = person.getPrimary().getItems();
-				items.add(item);
-				person.getPrimary().setItems(items);
-				System.out.println("accesorios:" + items);
-
-			} else {
-				item.setName(personForm.getItem().getName());
-				item.setPeso(personForm.getItem().getPeso());
-				item.setType(personForm.getItem().getType());
-				this.person.getBag().addItem(item);
-			}
-			this.person.setItem(item);
+		if (!StringUtils.isEmpty(personForm.getPokeballs())) {
+			Pokeball pokeball = new Pokeball();
+			
+			pokeball.setName(personForm.getPokeball().getName());
+			pokeball.setNumber(person.getPokeball().getNumber() + personForm.getPokeball().getNumber());	
+			System.out.println("metelo");
+			this.person.setPokeball(pokeball);
+			this.person.addPokeballs(pokeball);
+			
 		}
 	}
 	
-	@PostMapping("switchWeapon")
+	@PostMapping("switchPokemon")
 	public ModelAndView switchWeapon() {
-
-		Weapon tmp;
-		tmp = this.person.getPrimary();
-		this.person.setPrimary(this.person.getSecondary());
-		this.person.setSecondary(tmp);
-		if (this.person.getPrimary().getName() != null) {
-			System.out.println("El arma activa es " + this.person.getPrimary().getName());
+		
+		if (this.person.getPokemons().size()>1) {
+			Pokemon tmp;
+			tmp = this.person.getPokemons().get(0);
+			this.person.getPokemons().remove(0);
+			this.person.getPokemons().add(tmp);
+		}
+		else {
+			System.out.println("pero tu eres tonto o que te pasa si solo tienes un pokemone a que coño vas a cambiar");
 		}
 		ModelAndView modelAndView = new ModelAndView("index");
 		modelAndView.addObject("person", this.person);
