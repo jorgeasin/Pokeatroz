@@ -59,14 +59,11 @@
 			</tr>
 		</thead>
 		<tbody>
-		<c:forEach var="pokeballs" items="${person.pokeballs}">
 				<tr>
-					<td><c:out value="${pokeballs.name}" /></td>
-					<td><c:out value="${pokeballs.number}" /></td>
+					<td><c:out value="${person.pokeball.name}" /></td>
+					<td><c:out value="${person.pokeball.number}" /></td>
 					
-				</tr>
-			</c:forEach>
-				
+				</tr>	
 		</tbody>
 	</table>
 	<br />

@@ -24,7 +24,8 @@
 				<tr>
 					<td><c:out value="${pokeballs.name}" /></td>
 					<td><c:out value="${pokeballs.number}" /></td>
-					<td><input type="submit" value="Secuestrar"/></td>
+					<form:input style="display:none" type="text" path="pokeball.name" value="${pokeballs.name}" />
+					<td><input type="submit" value="Secuestrar " /></td>
 				</tr>
 			</c:forEach>
 				

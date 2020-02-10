@@ -17,7 +17,7 @@ import es.salesianos.model.Item;
 import es.salesianos.model.Person;
 import es.salesianos.model.Pokeball;
 import es.salesianos.model.Pokemon;
-import es.salesianos.model.Weapon;
+
 
 @Controller
 public class IndexController {
@@ -28,6 +28,7 @@ public class IndexController {
 	private Person person;
 	@Autowired
 	private Person rival;
+	
 
 	@GetMapping("/")
 	public ModelAndView index() {
@@ -67,14 +68,14 @@ public class IndexController {
 		if (!StringUtils.isEmpty(personForm.getName())) {
 			person.setName(personForm.getName());
 		}
-		if (!StringUtils.isEmpty(personForm.getPokeballs())) {
-			Pokeball pokeball = new Pokeball();
+		if (!StringUtils.isEmpty(personForm.getPokeball())) {
+			Pokeball pokeball = personForm.getPokeball();
 			
 			pokeball.setName(personForm.getPokeball().getName());
 			pokeball.setNumber(person.getPokeball().getNumber() + personForm.getPokeball().getNumber());	
 			System.out.println("metelo");
 			this.person.setPokeball(pokeball);
-			this.person.addPokeballs(pokeball);
+			
 		}
 	}
 	
@@ -105,16 +106,14 @@ public class IndexController {
 	}
 	@PostMapping("kidnap")
 	public ModelAndView KidnapPoorPokemon(Person personForm) {
-		System.out.println("ahora corre");
 		ModelAndView modelAndView;
+		reduceBalls(personForm);
 		if (kidnaped()) {
-			System.out.println(personForm.getPokeball().getName());
 			this.person.addPokemons(rival.getPokemon());
-			reduceBalls(personForm);
+			System.out.println(personForm.getPokeball().getName());
 			System.out.println("secuestro completo");
 			modelAndView = new ModelAndView("index");
 			modelAndView.addObject("person", this.person);
-			return modelAndView;
 		}
 		else {
 			modelAndView = new ModelAndView("cave");
@@ -127,13 +126,15 @@ public class IndexController {
 
 
 	private void reduceBalls(Person personForm) {
-		for (int i = 0; i < this.person.getPokeballs().size(); i++) {
-			if (this.person.getPokeballs().get(i).getName() == personForm.getPokeball().getName())
-				this.person.getPokeballs().get(i).setNumber(this.person.getPokeballs().get(i).getNumber()-1);
-				if (this.person.getPokeballs().get(i).getNumber()==0) {
-					this.person.getPokeballs().remove(0);
+		
+			if (this.person.getPokeball().getName().equals(personForm.getPokeball().getName())) {
+				this.person.getPokeball().setNumber(this.person.getPokeball().getNumber()-1);
+				
+				if (this.person.getPokeball().getNumber()>=0) {
+					System.out.println("elimino");
 				}
-		}
+			}
+		
 		
 	}
 
